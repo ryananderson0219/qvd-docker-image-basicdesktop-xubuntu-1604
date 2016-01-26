@@ -47,6 +47,8 @@ COPY XScreenSaver-nogl /etc/X11/app-defaults/XScreenSaver-nogl
 RUN chmod 755 /usr/local/bin/qvdstartx.sh /usr/local/bin/notify.sh /usr/local/bin/poweroff.sh
 # Cleanup
 RUN echo "" > /etc/udev/rules.d/70-persistent-net.rules
+# Currently has a bug
+RUN apt-get remove blueman
 RUN apt-get autoremove -y
 RUN apt-get clean
 CMD echo -e "This Docker container is used as a template to create a QVD Image\n" \
