@@ -22,16 +22,16 @@ LABEL description="This is a basic desktop Ubuntu VM image installation for QVD.
 
 ENV DEBIAN_FRONTEND noninteractive
 # packages
-RUN echo "deb http://archive.canonical.com/ubuntu xenial partner" > /etc/apt/sources.list.d/partners.list
+RUN echo "deb http://archive.canonical.com/ubuntu xenial multiverse" > /etc/apt/sources.list.d/partners.list
 RUN apt-get update && apt-get install -y \
   perl-qvd-client
 RUN apt-get update && apt-get install -y \
   xubuntu-desktop \
-  adobe-flashplugin \
   cups \
   curl \
   evince \
   firefox \
+  flashplugin-installer \
   libreoffice \
   icedtea-7-plugin \
   thunderbird
