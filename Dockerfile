@@ -33,7 +33,6 @@ RUN apt-get update && apt-get install -y \
   firefox \
   flashplugin-installer \
   libreoffice \
-  icedtea-7-plugin \
   thunderbird
 # Config
 RUN mkdir -p /etc/skel/.config/xfce4/
