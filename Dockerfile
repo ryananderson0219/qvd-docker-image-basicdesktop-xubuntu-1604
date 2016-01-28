@@ -45,7 +45,7 @@ COPY poweroff.sh /usr/local/bin/poweroff.sh
 COPY XScreenSaver-nogl /etc/X11/app-defaults/XScreenSaver-nogl
 RUN chmod 755 /usr/local/bin/qvdstartx.sh /usr/local/bin/notify.sh /usr/local/bin/poweroff.sh
 # Disable services
-RUN for i in atd cron cups-browsed kerneloops ModemManager rsyslog whoopsie wpa_supplicant; do systemctl disable $i.service; done
+RUN for i in anacron atd cron cups-browsed kerneloops ModemManager rsyslog whoopsie wpa_supplicant; do systemctl disable $i.service; done
 # Cleanup
 RUN echo "" > /etc/udev/rules.d/70-persistent-net.rules
 # Currently has a bug
