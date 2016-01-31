@@ -49,7 +49,7 @@ RUN for i in anacron atd cron cups-browsed kerneloops ModemManager rsyslog whoop
 # Cleanup
 RUN echo "" > /etc/udev/rules.d/70-persistent-net.rules
 # Currently has a bug
-RUN apt-get -y remove blueman
+RUN apt-get -y remove blueman wpasupplicant
 RUN apt-get autoremove -y
 RUN apt-get clean
 CMD echo -e "This Docker container is used as a template to create a QVD Image\n" \
