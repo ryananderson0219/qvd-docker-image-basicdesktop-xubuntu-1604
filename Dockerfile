@@ -22,18 +22,27 @@ LABEL description="This is a basic desktop Ubuntu VM image installation for QVD.
 
 ENV DEBIAN_FRONTEND noninteractive
 # packages
-RUN echo "deb http://archive.ubuntu.com/ubuntu xenial multiverse" > /etc/apt/sources.list.d/multiverse.list
-RUN apt-get update && apt-get install -y \
-  perl-qvd-client
-RUN apt-get update && apt-get install -y \
+RUN echo "deb http://archive.ubuntu.com/ubuntu xenial multiverse" > /etc/apt/sources.list.d/multiverse.list && \
+  apt-get update && apt-get install -y \
   xubuntu-desktop \
   cups \
   curl \
   evince \
   firefox \
   flashplugin-installer \
+  language-selector-gnome \
   libreoffice \
-  thunderbird
+  software-properties-common \
+  thunderbird \
+  && \
+  add-apt-repository ppa:nilarimogard/webupd8 && \
+  apt-get update && apt-get install -y \
+  perl-qvd-client \
+  && \
+  apt-get -y remove blueman wpasupplicant modemmanager && \
+  apt-get autoremove &&  apt-get clean
+
+
 # Config
 RUN mkdir -p /etc/skel/.config/xfce4/
 COPY xfce4/ /etc/skel/.config/xfce4/
@@ -49,7 +58,6 @@ RUN for i in anacron atd cron cups-browsed kerneloops rsyslog whoopsie ;  do sys
 # Cleanup
 RUN echo "" > /etc/udev/rules.d/70-persistent-net.rules
 # Currently has a bug
-RUN apt-get -y remove blueman wpasupplicant modemmanager ; apt-get autoremove -y ;  apt-get clean
 CMD echo -e "This Docker container is used as a template to create a QVD Image\n" \
             "QVD is Linux Remote Desktop VDI system\n" \
             "\n" \
