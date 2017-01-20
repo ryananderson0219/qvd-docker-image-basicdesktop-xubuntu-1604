@@ -40,7 +40,9 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu xenial multiverse" > /etc/apt/sou
   perl-qvd-client \
   && \
   apt-get -y remove blueman wpasupplicant modemmanager && \
-  apt-get autoremove -y &&  apt-get clean
+  apt-get autoremove -y &&  apt-get clean && \
+  for i in anacron atd cron cups-browsed kerneloops rsyslog whoopsie ;  do systemctl disable $i.service; done && \
+  echo "" > /etc/udev/rules.d/70-persistent-net.rules
 
 
 # Config
@@ -53,22 +55,3 @@ COPY notify.sh /usr/local/bin/notify.sh
 COPY poweroff.sh /usr/local/bin/poweroff.sh
 COPY XScreenSaver-nogl /etc/X11/app-defaults/XScreenSaver-nogl
 RUN chmod 755 /usr/local/bin/qvdstartx.sh /usr/local/bin/notify.sh /usr/local/bin/poweroff.sh
-# Disable services
-RUN for i in anacron atd cron cups-browsed kerneloops rsyslog whoopsie ;  do systemctl disable $i.service; done
-# Cleanup
-RUN echo "" > /etc/udev/rules.d/70-persistent-net.rules
-# Currently has a bug
-CMD echo -e "This Docker container is used as a template to create a QVD Image\n" \
-            "QVD is Linux Remote Desktop VDI system\n" \
-            "\n" \
-            "To create the tar.gz file importable into QVD please use the following commands:\n" \
-	    "   sudo docker build -t theqvd/qvdimageubuntu:basicdesktop_xubuntu_1604 .\n" \
-            "   vmid=\$(sudo docker run -d -t -i theqvd/qvdimageubuntu:basicdesktop_xubuntu_1604 /bin/bash -c \"read a; echo \$a\")\n" \
-            "   docker export \$vmid  | gzip -c > qvd-image-xubuntu-16.04-basicdesktop.tgz\n" \
-            "   sudo docker kill \$vmid\n" \
-            "\n" \
-            "And the importable image is qvd-image-xubuntu-16.04-basicdesktop.tgz\n" \
-            "\n" \
-            "For more information please check: \n" \
-            "  * QVD web site:  http://theqvd.com and\n" \
-            "  * Github repo https://github.com/theqvd/qvd-docker-image-basicdesktop-xubuntu-1604.git/\n"
